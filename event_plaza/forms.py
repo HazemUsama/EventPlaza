@@ -34,7 +34,7 @@ class LoginForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')
+    remember = BooleanField('Remember me for 30 days')
     submit = SubmitField('Log In')
 
 class UpdateProfileForm(FlaskForm):
@@ -82,6 +82,19 @@ class CreateEventForm(FlaskForm):
         if event:
             raise ValidationError('That event name is already taken.')
 
+class AddUserToEventForm(FlaskForm):
+    """ Class for adding a user to an event form """
+    email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"placeholder": "friend@mail.com"})
+    role = SelectField('Role', choices=[('organizer', 'Organizer'), ('manager', 'Manager')])
+    submit = SubmitField('Add User')
+
+    def validate_email(self, email):
+        with app.app_context():
+            user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with that email.')
+
+
 class CreateTaskForm(FlaskForm):
     """ Class for creating a task form """
     name = StringField('Title', validators=[DataRequired(), Length(min=2, max=128)], render_kw={"placeholder": "Title", "spellcheck": "false"})
@@ -101,7 +114,12 @@ class RequestResetForm(FlaskForm):
 
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('New Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+    
+
+class VerifyEmailForm(FlaskForm):
+    email = StringField('Email', validators=[Email()])
+    submit = SubmitField('Send Email With Verification Link')
