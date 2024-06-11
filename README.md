@@ -20,9 +20,8 @@ To run EventPlaza in a development environment, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your_username/EventPlaza.git
+   git clone https://github.com/HazemUsama/EventPlaza.git
    ```
-   Replace `your_username` with your GitHub username.
 
 2. Navigate to the project directory:
    ```bash
@@ -43,7 +42,6 @@ To run EventPlaza in a development environment, follow these steps:
 
 Now you can start exploring and testing EventPlaza in your development environment. Happy coding!
 
-The project is currently (temporarily) deployed [here](http://web-02.abdorithm.tech/eventplaza/)
 
 ## Technologies
 
